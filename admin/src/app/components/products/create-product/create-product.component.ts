@@ -51,8 +51,8 @@ export class CreateProductComponent implements OnInit {
       this.formInvalid = true;
       return;
     }
-
-    this.product = form.value;
+  
+    this.productMapper(form);
     
     this.productService.createProduct(this.product, this.file, this.token).subscribe({
        next: (resp) => {
@@ -67,6 +67,16 @@ export class CreateProductComponent implements OnInit {
     });
     
   }
+
+  productMapper(form: NgForm): void {
+    this.product.name = form.value.name;
+    this.product.image = form.value.image;
+    this.product.price = form.value.price;
+    this.product.category = form.value.category;
+    this.product.description = form.value.description;
+    this.product.content = form.value.content;
+  }
+
 
   fileChangeEvent(event: any): void {
     let portada = document.getElementById('portada-name');

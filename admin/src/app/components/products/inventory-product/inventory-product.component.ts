@@ -79,7 +79,6 @@ export class InventoryProductComponent implements OnInit, OnDestroy {
   mapProduct(data: any) {
     this.product.name = data.name;
     this.product.image = data.portada;
-    this.product.stock = data.stock;
     this.product.price = data.price;
     this.product.category = data.category;
     this.product.description = data.description;

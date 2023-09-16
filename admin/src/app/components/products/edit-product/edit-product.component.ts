@@ -83,7 +83,6 @@ export class EditProductComponent implements OnInit, OnDestroy {
       data.portada = this.file;
     } 
     data.name = this.product.name;
-    data.stock = this.product.stock;
     data.price = this.product.price;
     data.category = this.product.category;
     data.description = this.product.description;
@@ -156,7 +155,6 @@ export class EditProductComponent implements OnInit, OnDestroy {
   productMapper(data: any): void {
     this.product.name = data.data.name;
     this.product.price = data.data.price;
-    this.product.stock = data.data.stock;
     this.product.category = data.data.category;
     this.product.content = data.data.content;
     this.product.description = data.data.description;
