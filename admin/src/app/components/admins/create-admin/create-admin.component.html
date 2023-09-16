@@ -1,0 +1,115 @@
+<app-sidebar></app-sidebar>
+  <!-- Page title-->
+  <div class="border-bottom pt-5 mt-2 mb-5">
+    <h1 class="mt-2 mt-md-4 mb-3 pt-5">Admins</h1>
+    <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
+      <p class="text-muted">This module creates a new admin record.</p>
+      
+    </div>
+  </div>
+  
+  <div *ngIf="formInvalid" class="form-invalid" >Please complete the fields marked in red.</div>
+  <div class="card box-shadow-sm">
+        <div class="card-header">
+            <h5 style="margin-bottom: 0px;">Admin record</h5> 
+        </div>
+        <div class="card-body">
+            <form #registerForm="ngForm" id="registerForm" (ngSubmit)="createAdmin(registerForm)">
+              <div class="row">
+
+                <div class="col-md-4 form-group">
+                  <label for="validationCustom01" class="form-label">Name</label>
+                  <input 
+                    class="form-control" 
+                    type="text"
+                    name="name"
+                    id="name"
+                    placeholder="First name"
+                    [ngModel]="admin.name" 
+                    required >
+                </div>
+
+                <div class="col-md-4 form-group">
+                  <label for="validationCustom01" class="form-label">Last name</label>
+                  <input 
+                    class="form-control" 
+                    type="text" 
+                    placeholder="Last name"
+                    name="lastname"
+                    id="lastname" 
+                    [ngModel]="admin.lastname" 
+                    required>
+                </div>
+
+                <!-- <div class="col-md-4 form-group">
+                    <label for="validationCustom01" class="form-label">Country</label>
+                    <input 
+                        class="form-control" 
+                        type="text" 
+                        placeholder="Country" 
+                        name="country" 
+                        [ngModel]="customer.country" 
+                        required>
+                </div> -->
+
+                <div class="col-md-4 form-group">
+                  <label for="validationCustom01" class="form-label">Email</label>
+                  <input 
+                    class="form-control" 
+                    type="text" 
+                    placeholder="Email"
+                    name="email"
+                    id="email" 
+                    [ngModel]="admin.email" 
+                    required>
+                </div>
+
+                <div class="col-md-4 form-group">
+                  <label for="validationCustom01" class="form-label">Phone</label>
+                  <input 
+                    class="form-control" 
+                    type="text" 
+                    placeholder="Phone"
+                    name="phone"
+                    id="phone" 
+                    [ngModel]="admin.phone"
+                    maxlength="10" 
+                    required>
+                </div>
+
+                <div class="col-md-4">
+                    <label for="validationCustom01" class="form-label">Role</label>
+                    <select 
+                      class="form-control custom-select" 
+                      name="role"
+                      id="role"  
+                      [ngModel]="admin.role" 
+                      required="">
+                      <option value="" disabled selected hidden>Select</option>
+                      <option value="admin">Admin</option>
+                      <option value="dev">Developer</option>
+                      <option value="QA">QA</option>
+                      <option value="Manger">Manager</option>
+                    </select>
+                  </div>
+            
+
+                <div class="col-md-4 form-group">
+                  <label for="validationCustom01" class="form-label">DNI</label>
+                  <input 
+                    class="form-control" 
+                    type="text" 
+                    name="dni"
+                    id="dni"  
+                    [ngModel]="admin.dni"
+                    required>
+                </div>
+              </div>
+            </form>
+    </div>
+    <div class="card-footer">
+        <button type="submit" form="registerForm" class="btn btn-primary mr-3">Create admin</button>
+        <a class="btn btn-warning" routerLink="/panel/admins">Cancel</a>
+    </div>
+  </div>
+

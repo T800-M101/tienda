@@ -1,0 +1,46 @@
+<div class="row" style="width: 100%; height: 100%; margin-top: 80px;">
+    <div class="mx-auto" style="display: flex; align-items: center;">
+        <div class="modal-body px-md-5 px-4">
+            <h3 class="modal-title mt-4 mb-0 text-center mb-5">Iniciar sesión</h3>
+            <p class="font-size-sm text-muted text-center">Inicia sesión con tu correo electrónico y la contraseña obtenidos al registrarte.</p>
+            <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+                <div class="form-group">
+                    <label for="signin-email">Email</label>
+                    <input 
+                        type="email" 
+                        class="form-control" 
+                        name="email"
+                        [ngModel]="admin.email" 
+                        placeholder="Your Email" 
+                        required="">
+                </div>
+                <div class="form-group">
+                    <label for="signin-password" class="form-label">Password</label>
+                    <div class="cs-password-toggle input-group-overlay">
+                    <input 
+                        type="password" 
+                        class="form-control appended-form-control" 
+                        name="password"
+                        [ngModel]="admin.password" 
+                        placeholder="Your password" 
+                        required="">
+
+                    <div class="input-group-append-overlay">
+                        <label class="btn cs-password-toggle-btn input-group-text">
+                        <input type="checkbox" class="custom-control-input">
+                        <i class="fas fa-eye-slash"></i>
+                        <span class="sr-only">Show Password</span>
+                        </label>
+                    </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center form-group">
+                
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" [disabled]="!loginForm.valid">Iniciar sesión</button>
+            </form>
+          </div>
+    </div>
+</div>
+
+<!-- fa-solid fa-eye -->

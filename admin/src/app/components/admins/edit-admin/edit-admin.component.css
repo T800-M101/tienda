@@ -1,0 +1,36 @@
+.not-found {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+img {
+    width: 200px;
+    height: 200px;
+    text-align: center;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.spinner {
+    display: flex;
+    justify-content: center;
+}
+
+.form-invalid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 886px;
+    height: 50px;
+    border-radius: 6px;
+    background-color: #ffd5dc;
+    color: red;
+    margin-bottom: 3px;
+}
+
+.error {
+    border-style: solid;
+    border-color: red;
+}

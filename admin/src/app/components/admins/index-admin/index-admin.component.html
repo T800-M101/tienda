@@ -1,0 +1,62 @@
+<app-sidebar></app-sidebar>
+
+   <!-- Page title-->
+   <div class="border-bottom pt-5 mt-2 mb-5">
+    <h1 class="mt-2 mt-md-4 mb-3 pt-5">Admins</h1>
+    <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
+      <p class="text-muted">This module shows a list of all the admins.</p>
+      <p class="font-size-sm font-weight-medium pl-md-4"><a class="text-nowrap" routerLink="/panel/admins/create">Create new <span></span><i class="fa-solid fa-chevron-right"></i></a></p>
+    </div>
+  </div>
+
+  <div class="card box-shadow-sm">
+
+        <div class="card-header">
+            <h5 style="margin-bottom: 0px;">Filter Admins</h5>
+        </div>
+        <div class="card-header">
+            <form class="form-inline pt-2">
+                <input class="form-control mb-3 mr-sm-4" type="text" [(ngModel)]="filteredAdmin" name="filteredAdmin" placeholder="Firstname / Lastname / Email / Phone">
+            </form>
+        </div>
+        <div class="card-body">
+        <section class="table__body">
+          <table>
+              <thead>
+                  <tr class="table__header">
+                      <td>#</td>
+                      <td>First Name</td>
+                      <td>Last Name</td>
+                      <td>Email</td>
+                      <td>Phone</td>
+                      <td>Options</td>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let admin of admins | slice: (page-1) * pageSize : (page -1) * pageSize + pageSize  | filter:filteredAdmin; let i = index">
+                      <td><strong>{{i+1}}</strong></td>
+                      <td>{{admin.name}}</td>
+                      <td>{{admin.lastname}}</td>
+                      <td>{{admin.email}}</td>
+                      <td>{{admin.phone}}</td>
+                      <td>
+                          <div class="table__buttons">
+                              <button type="button" class="btn btn-edit" [routerLink]="['/panel/admins/edit/', admin._id]"><i class="fa-solid fa-pen-to-square"></i></button>
+                              <button type="button" class="btn btn-delete" (click)="openModal(admin, 'admin')"><i class="fa-solid fa-trash"></i></button>
+                          </div>
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+      </section>
+    </div>
+        <div class="card-footer">
+              <ngb-pagination 
+                [(page)]="page"
+                [pageSize]="pageSize"
+                [collectionSize]="admins.length">
+              </ngb-pagination>
+        </div>
+      </div>   
+    <app-modal *ngIf="modalSwitch" (onCloseModal)="onCloseModal($event)"></app-modal>
+ 

@@ -1,0 +1,127 @@
+<app-sidebar></app-sidebar>
+
+<!-- Page title-->
+<div class="border-bottom pt-5 mt-2 mb-5">
+    <h1 class="mt-2 mt-md-4 mb-3 pt-5">Products</h1>
+    <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
+        <p class="text-muted">This modules shows a list of all the products in the store.</p>
+    </div>
+</div>
+
+<div *ngIf="formInvalid" class="form-invalid" >Please complete the fields marked in red.</div>
+<div class="card box-shadow-sm">
+        <form #productForm="ngForm" id="productForm" (ngSubmit)="createProduct(productForm)">
+            <div class="card-header">
+                <h5 style="margin-bottom: 0px;">Product record</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="row">
+
+                            <div class="col-lg-12 form-group">
+                                <label for="">Product name</label>
+                                <input 
+                                    type="text" 
+                                    class="form-control"
+                                    name="name"
+                                    id="name" 
+                                    [(ngModel)]="product.name"
+                                    placeholder="Product name" 
+                                    required>
+                            </div>
+
+                            <div class="col-lg-4 form-group">
+                                <label for="">Stock</label>
+                                <input 
+                                    type="number" 
+                                    class="form-control"
+                                    name="stock"
+                                    id="stock" 
+                                    [(ngModel)]="product.stock" 
+                                    placeholder="Initial qty" 
+                                    required>
+                            </div>
+
+                            <div class="col-lg-4 form-group">
+                                <label for="">Price</label>
+                                <input 
+                                    type="number" 
+                                    class="form-control"
+                                    name="price"
+                                    id="price" 
+                                    [(ngModel)]="product.price" 
+                                    placeholder="Price" 
+                                    required>
+                            </div>
+
+                            <div class="col-lg-4 form-group">
+                                <label for="">Category</label>
+                                <select 
+                                    class="form-control custom-select" 
+                                    id="category"
+                                    name="category"
+                                    [(ngModel)]="product.category"
+                                    required>
+                                    <option value="" disabled selected hidden>Select</option>
+                                    <option value="Categoria 1">Category 1</option>
+                                </select>
+                            </div>
+
+                            <div class="col-lg-12 form-group">
+                                <label for="">Short description</label>
+                                <textarea 
+                                    class="form-control" 
+                                    placeholder="Titulo de producto"
+                                    name="description"
+                                    id="description" 
+                                    [(ngModel)]="product.description" 
+                                    required 
+                                    rows="5">
+                                </textarea>
+                            </div>
+
+                            <div class="col-lg-12 form-group">
+                                <label for="">Content</label>
+                                    <editor [init]="{
+                                        base_url: '/tinymce',
+                                        suffix: '.min'}" name="content" id="content" [(ngModel)]="product.content" required>
+                                    </editor>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="row">
+                            <div class="col-lg-12 form-group">
+                                <label for="">Image</label>
+                                <div class="custom-file">
+                                    <input 
+                                        class="custom-file-input" 
+                                        type="file" 
+                                        name="image"
+                                        #image="ngModel" 
+                                        [(ngModel)]="product.image"
+                                        (change)="fileChangeEvent($event)"
+                                        id="file-input"
+                                        required>
+                                    <p *ngIf="image.touched && image.invalid || imageInvalid">This field is required.</p>
+                                    <p *ngIf="image.touched && !imageSizeAllowed">The image size is too large.</p>
+                                    <p *ngIf="image.touched && !imageTypeAllowed">The image type is not allowed.</p>
+                                    <label class="custom-file-label" for="file-input" id="portada-name" style="white-space:nowrap; overflow:hidden;">Select image</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <img [src]="imgSelected" class="img-thumbnail" alt="image selected">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </form>
+
+    <div class="card-footer">
+        <button type="submit" class="btn btn-primary mr-3" form="productForm" #btnCreate>Create product</button>
+        <button class="btn btn-warning" [routerLink]="'/panel/products'">Cancel</button>
+    </div>
+</div>

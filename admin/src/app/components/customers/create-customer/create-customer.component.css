@@ -1,0 +1,9 @@
+.error {
+    border-style: solid;
+    border-color: red;
+}
+
+p {
+    color: red;
+    font-size: small;
+}

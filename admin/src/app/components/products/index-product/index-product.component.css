@@ -1,0 +1,127 @@
+:root {
+    --green: #7fcb5f;
+    --red: #ff4d4d;
+    --blue: rgb(58, 177, 247);
+    --table-header: #424551;
+   
+}
+
+a span {
+    margin-right: 5px;
+}
+
+/* IMAGE EFFECT */
+.img-contenedor img {
+    -webkit-transition:all .9s ease; /* Safari y Chrome */
+    -moz-transition:all .9s ease; /* Firefox */
+    -o-transition:all .9s ease; /* IE 9 */
+    -ms-transition:all .9s ease; /* Opera */
+}
+
+.img-contenedor:hover img {
+    -webkit-transform:scale(5);
+    -moz-transform:scale(5);
+    -ms-transform:scale(5);
+    -o-transform:scale(5);
+    transform:scale(5);
+}
+    
+.img-contenedor {/*Ancho y altura son modificables al requerimiento de cada uno*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width:30px;
+    height:30px;
+}
+
+/* IMAGE EFFECT END */
+
+
+
+
+/* TABLE START */
+.table__body {
+    width: 100%;
+    max-height: calc(95% - 1.6rem);
+}
+
+.table__header {
+   background-color: #424551;
+}
+
+.table__header td {
+    color: #fff;
+}
+
+table {
+    width: 100%;
+}
+
+td img {
+    width: 36px;
+    height: 36px;
+    margin-right: .5rem;
+    /* border-radius: 50%; */
+    vertical-align: middle;
+}
+
+table, th, td {
+    border-collapse: collapse;
+    padding: 1rem;
+    text-align: left;
+}
+
+thead th {
+    position: sticky;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    text-transform: capitalize;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #0000000b;
+    transition: background-color 0.2s ease;
+}
+
+
+tbody tr:hover {
+    background-color: #fff6;
+}
+
+
+.table__buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    margin-right: -.5rem;
+    width: 10rem;
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 2rem;
+}
+
+.btn-edit {
+    background-color: var(--green);
+}
+
+.btn-delete {
+    background-color: var(--red);
+}
+
+
+.btn-inventory {
+    background-color: var(--blue)
+}
+
+
+.btn i {
+    color: #fff;
+}
+/* TABLE END */

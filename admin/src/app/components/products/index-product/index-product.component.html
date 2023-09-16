@@ -1,0 +1,70 @@
+<app-sidebar></app-sidebar>
+
+
+ <!-- Page title-->
+ <div class="border-bottom pt-5 mt-2 mb-5">
+    <h1 class="mt-2 mt-md-4 mb-3 pt-5">Products</h1>
+    <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
+      <p class="text-muted">This module shows a list of all the products.</p>
+      <p class="font-size-sm font-weight-medium pl-md-4"><a class="text-nowrap" routerLink="/panel/products/create">Create new <span></span> <i class="fa-solid fa-chevron-right"></i></a></p>
+    </div>
+  </div>
+
+  <div class="card box-shadow-sm">
+        <div class="card-header">
+            <h5 style="margin-bottom: 0px;">Filter products</h5>
+        </div>
+        <div class="card-header">
+            <div class="form-inline pt-2">
+                <input class="form-control mb-3 mr-sm-4" type="text" [(ngModel)]="filteredProduct" name="filteredProduct" placeholder="Product name">
+            </div>
+        </div>
+        <div class="card-body">
+            <section class="table__body">
+                <table>
+                    <thead>
+                        <tr class="table__header">
+                            <td>#</td>
+                            <td>Image</td>
+                            <td>Name</td>
+                            <td>Stock</td>
+                            <td>Price</td>
+                            <td>Category</td>
+                            <td>Sales</td>
+                            <td>Options</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let product of products | slice: (page-1) * pageSize : (page -1) * pageSize + pageSize  | filter:filteredProduct; let i = index">
+                            <td><strong>{{i+1}}</strong></td>
+                            <td><div class="img-contenedor"><img [src]="url+'getPortada/'+product.portada"   alt="{{product.slug}}"></div></td>
+                            <td>{{product.name}}</td>
+                            <td>{{product.stock}}</td>
+                            <td>{{product.price}}</td>
+                            <td>{{product.category}}</td>
+                            <td>{{product.nsales}}</td>
+                            <td>
+                                <div class="table__buttons">
+                                    <button type="button" class="btn btn-edit" [routerLink]="['/panel/products/edit/', product._id]"><i class="fa-solid fa-pen-to-square"></i></button>
+                                    <button type="button" class="btn btn-delete" (click)="openModal(product, 'product')"><i class="fa-solid fa-trash"></i></button>
+                                    <button type="button" class="btn btn-inventory" [routerLink]="['/panel/products/inventory/', product._id]"><i class="fa-solid fa-info"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+        </div>
+        <div class="card-footer">
+            
+            <ngb-pagination 
+                [(page)]="page"
+                [pageSize]="pageSize"
+                [collectionSize]="products.length">
+            </ngb-pagination>
+        </div>
+    </div>   
+    <app-modal *ngIf="modalSwitch" (onCloseModal)="onCloseModal($event)"></app-modal>
+   
+

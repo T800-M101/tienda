@@ -1,0 +1,144 @@
+<app-sidebar></app-sidebar>
+  <!-- Page title-->
+  <div class="border-bottom pt-5 mt-2 mb-5">
+    <h1 class="mt-2 mt-md-4 mb-3 pt-5">Clientes</h1>
+    <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
+      <p class="text-muted">This module creates a new customer record.</p>
+      
+    </div>
+  </div>
+
+  <div class="card box-shadow-sm">
+        <div class="card-header">
+            <h5 style="margin-bottom: 0px;">Customer record</h5> 
+        </div>
+        <div class="card-body">
+            <form #registerForm="ngForm" id="registerForm" (ngSubmit)="createCustomer(registerForm)">
+              <div class="row">
+
+                <div class="col-md-4 form-group">
+                  <label for="validationCustom01" class="form-label">Name</label>
+                  <input 
+                    class="form-control" 
+                    type="text"
+                    name="name"
+                    placeholder="First name"
+                    #name="ngModel" 
+                    [class.error]="name.invalid && name.touched"
+                    [ngModel]="customer.name" 
+                    required >
+                    <p *ngIf="name.invalid && name.touched">This field is required.</p>
+                </div>
+
+                <div class="col-md-4 form-group">
+                  <label for="validationCustom01" class="form-label">Last name</label>
+                  <input 
+                    class="form-control" 
+                    type="text" 
+                    placeholder="Last name"
+                    #lastname="ngModel" 
+                    [class.error]="lastname.invalid && lastname.touched" 
+                    name="lastname" 
+                    [ngModel]="customer.lastname" 
+                    required>
+                    <p *ngIf="lastname.invalid && lastname.touched">This field is required.</p>
+
+                </div>
+
+                <!-- <div class="col-md-4 form-group">
+                    <label for="validationCustom01" class="form-label">Country</label>
+                    <input 
+                        class="form-control" 
+                        type="text" 
+                        placeholder="Country" 
+                        name="country" 
+                        [ngModel]="customer.country" 
+                        required>
+                </div> -->
+
+                <div class="col-md-4 form-group">
+                  <label for="validationCustom01" class="form-label">Email</label>
+                  <input 
+                    class="form-control" 
+                    type="text" 
+                    placeholder="Email"
+                    #email="ngModel" 
+                    [class.error]="email.invalid && email.touched" 
+                    name="email" 
+                    [ngModel]="customer.email" 
+                    required>
+                </div>
+
+                <div class="col-md-4 form-group">
+                  <label for="validationCustom01" class="form-label">Phone</label>
+                  <input 
+                    class="form-control" 
+                    type="text" 
+                    placeholder="Phone"
+                    #phone="ngModel" 
+                    [class.error]="phone.invalid && phone.touched" 
+                    name="phone" 
+                    [ngModel]="customer.phone" 
+                    required>
+                </div>
+
+                <!-- <div class="col-md-4 form-group">
+                    <label for="validationCustom01" class="form-label">Password</label>
+                    <input 
+                        class="form-control" 
+                        type="password" 
+                        placeholder="Password" 
+                        name="password" 
+                        [ngModel]="customer.password" 
+                        required>
+                </div> -->
+
+                <!-- <div class="col-md-4 form-group">
+                    <label for="validationCustom01" class="form-label">Profile</label>
+                    <input 
+                        class="form-control" 
+                        type="text" 
+                        placeholder="Profile" 
+                        name="profile" 
+                        [ngModel]="customer.profile" 
+                        required>
+                </div> -->
+
+                <div class="col-md-4 form-group">
+                  <label for="validationCustom01" class="form-label">Birthday</label>
+                  <input 
+                    class="form-control" 
+                    type="date" 
+                    name="birthday" 
+                    [ngModel]="customer.birthday">
+                </div>
+
+                <div class="col-md-4 form-group">
+                  <label for="validationCustom01" class="form-label">DNI</label>
+                  <input 
+                    class="form-control" 
+                    type="text" 
+                    name="dni" 
+                    [ngModel]="customer.dni">
+                </div>
+
+                <div class="col-md-4">
+                  <label for="validationCustom01" class="form-label">Genre</label>
+                  <select 
+                    class="form-control custom-select" 
+                    name="genre" 
+                    [ngModel]="customer.genre" 
+                    required="">
+                    <option value="" disabled selected hidden>Select</option>
+                    <option value="Masculino">Male</option>
+                    <option value="Femenino">Female</option>
+                  </select>
+                </div>
+              </div>
+            </form>
+    </div>
+    <div class="card-footer">
+        <button type="submit" form="registerForm" class="btn btn-primary mr-3" [disabled]="registerForm.invalid">Create customer</button>
+        <a class="btn btn-warning" routerLink="/panel/customers">Cancel</a>
+    </div>
+  </div>

@@ -1,0 +1,63 @@
+<app-sidebar></app-sidebar>
+
+<!-- Page title-->
+<div class="border-bottom pt-5 mt-2 mb-5">
+    <h1 class="mt-2 mt-md-4 mb-3 pt-5">Inventory</h1>
+    <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
+      <p class="text-muted">This module shows an inventory of a product.</p>
+      <p class="font-size-sm font-weight-medium pl-md-4"><a class="text-nowrap" routerLink="/panel/products"><i class="fa-solid fa-chevron-left"><span></span></i>Back</a></p>
+    </div>
+  </div>
+
+  <div class="card box-shadow-sm">
+        <div class="card-header">
+            <h5 style="margin-bottom: 0px;">Inventory of {{product.name}}</h5>
+        </div>
+      
+      <div class="card-body">
+        <section class="table__body">
+            <table>
+                <thead>
+                    <tr class="table__header">
+                        <td>Admin</td>
+                        <td>Quantity</td>
+                        <td>Supplier</td>
+                        <td>Options</td>
+                    </tr>
+                </thead>
+                <ng-container *ngIf="inventory.length > 0">
+                    <tbody>
+                        <tr *ngFor="let item of inventory">
+                            <td>{{item.admin.name}}</td>
+                            <td>{{item.quantity}}</td>
+                            <td>{{item.supplier}}</td>
+                            <td>
+                                <div class="table__buttons">
+                                    <button type="button" class="btn btn-delete"  (click)="openModal(item, 'inventory')"><i class="fa-solid fa-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+            </ng-container>
+            <ng-container *ngIf="inventory.length === 0">
+                <tbody>
+                    <tr>
+                        <td colspan="4" class="text-center">
+                            <span class="text-muted">No inventory for this product</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </ng-container>
+            </table>
+        </section>
+    </div>
+        <div class="card-footer">
+            <!-- <ngb-pagination 
+                [(page)]="page"
+                [pageSize]="pageSize"
+                [collectionSize]="products.length">
+            </ngb-pagination> -->
+        </div>
+    </div>
+
+    <app-modal *ngIf="modalSwitch" (onCloseModal)="onCloseModal($event)"></app-modal>
