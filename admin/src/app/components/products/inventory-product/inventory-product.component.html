@@ -17,14 +17,13 @@
             <div class="row">
                 <div class="col-12">
                     <form class="form-inline" #inventoryForm="ngForm" (ngSubmit)="addInventory(inventoryForm)">
-                        <label class="sr-only">Quantity</label>
                         <input 
                             class="form-control mb-3 mr-4" 
                             type="text" name="quantity"
                             [(ngModel)]="inventory.quantity" 
                             placeholder="Quantity" 
                             required>
-                        <label class="sr-only">Supplier</label>
+                       
                         <input 
                             class="form-control mb-3 mr-3" 
                             type="text" name="supplier"

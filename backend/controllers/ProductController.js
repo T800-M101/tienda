@@ -8,7 +8,7 @@ const fs = require("fs");
 const path = require("path");
 const inventory = require("../models/inventory");
 
-const register_product = (req, res) => {
+const register_product = async (req, res) => {
     if (!req.user || req.user.role !== 'admin' ) return res.status(500).send( { message: 'No access granted.'})
    
     try { 
@@ -18,25 +18,22 @@ const register_product = (req, res) => {
         const img_name = img_path.split('/')[8];
         data.portada = img_name;
         data.slug = data.name.toLowerCase().replace(/ /g,'-').replace(/[^\w-]+/g,'');
-        Product.create(data).then(product => {
-            Inventory.create({
-                admin: req.user.sub,
-                quantity: data.stock,
-                supplier: 'First record',
-                product: product._id
-            });
-        
-            res.status(200).send({
-                message: 'Product created.',
-                data: product,
-                inventorory: product
-            });
+        const product = await Product.create(data);
+        const inventory = await Inventory.create({
+            admin: req.user.sub,
+            quantity: data.stock,
+            supplier: 'First record',
+            product: product._id
         });
         
-        
+        res.status(200).send({
+            message: 'Product created.',
+            data: product,
+            inventorory: product
+        });
         
     } catch (error) {
-        res.status(500).send({ message: error})
+        res.status(500).send({ message: 'Product was not created.'})
     }
 }
 
@@ -65,8 +62,6 @@ const updateProduct = async(req, res) => {
             portada: data.portada
         });
 
-        // productUpdated receives the info of the product before being updated
-        if(!productUpdated) return res.status(400).send({ message: 'Product info was not updated.'});
         
         fs.stat('./uploads/products/'+productUpdated.portada, function(err) {
             if (!err) {
@@ -91,16 +86,14 @@ const updateProduct = async(req, res) => {
                 content: data.content,
                 slug: data.slug,
             });
-        // productUpdated receives the info of the product before being updated
-        if(!productUpdated) return res.status(400).send({ message: 'Product info was not updated.'});
-
         res.status(200).send({ message: 'Product info updated correctly.'})
          
         }
     } catch (error) {
-        res.status(500).send({ message: error});
+        res.status(400).send({ message: 'Product info was not updated.'});
     }
 }
+
 
 const getProducts = async (req, res) => {
     if (!req.user || !req.user.role === 'admin') return  res.status(403).send({ message: 'No Access Granted.'});
@@ -108,30 +101,24 @@ const getProducts = async (req, res) => {
     try {
         const filter = req.params['filter'];
         const data = await Product.find({ name: new RegExp(filter, 'i')});
-
-        if (!data) return res.status(500).send({ message: 'Data not found' });
-
         res.status(200).send({ products: data });
         
     } catch (error) {
-        res.status(500).send({ message: error });
+        res.status(500).send({ message: 'Data not found' });
     }
 }
 
 const getProductById = async (req, res) => {
     if (!req.user || !req.user.role === 'admin') return  res.status(403).send({ message: 'No Access Granted.'});
 
-    const id = req.params['id'];
-
+    
     try {
+        const id = req.params['id'];
         const productFound = await Product.findById({_id: id}); 
-
-        if (!productFound) return res.status(500).send({ message: 'Data not found' });
-
         res.status(200).send({ data:productFound });
         
     } catch (error) {
-        res.status(500).send({ message: error });
+        res.status(500).send({ message: 'Data not found' });
     }
 }
 
@@ -155,86 +142,73 @@ const deleteProduct = async(req, res) => {
         const id = req.params['id'];
         const body = req.body;
         const productDeleted = await Product.findByIdAndRemove({ _id:id });
-        if(!productDeleted) return res.status(400).send({ message: 'Product was not deleted.'})
-
-        res.status(200).send({ message: 'Product deleted correctly.'})
-        
+        res.status(200).send({ message: 'Product deleted correctly.'});
     } catch (error) {
-        
+        res.status(400).send({ message: 'Product was not deleted.'});
     }
 }
 
-const getInventoryById = (req, res) => {
+const getInventoryById = async (req, res) => {
     
     if (!req.user || !req.user.role === 'admin') return  res.status(403).send({ message: 'No Access Granted.'});
 
-    const id = req.params['id'];
     try {
-        Inventory.find({product: id}).populate('admin').sort({ createdAt: -1 })
-        .then(inventory => {
-            res.status(200).send({
-                message: 'Inventory data',
-                data: inventory
-            });
-        })
-        .catch(error => {
-            res.status(500).send({ message: `Inventory for product with id ${id} not found.`})
-        });
+        const id = req.params['id'];
+
+        const inventory = await Inventory.find({product: id}).populate('admin').sort({ createdAt: -1 });
+        
+        res.status(200).send({ message: 'Inventory data', data: inventory });
         
     } catch (error) {
-        res.status(500).send({ message: error});
+        res.status(500).send({ message: `Inventory for product with id ${id} not found.`})
     }
 
 }
 
 
-const deleteInventoryById = (req, res) => {
+const deleteInventoryById = async (req, res) => {
 
     if (!req || req.user.role !== 'admin') return  res.status(403).send({ message: 'No Access Granted.'});
 
+    try {
         const id = req.params['id'];
-        Inventory.findByIdAndRemove( {_id : id})
-        .then(inventoryRemoved => {
-            Product.findById( {_id: inventoryRemoved.product})
 
-            .then( productFound => {
-                let newStock = productFound.stock - inventoryRemoved.quantity;
-                Product.findByIdAndUpdate({ _id : inventoryRemoved.product}, { stock: newStock})
-                
-                .then( productUpdated => {
-                    res.status(200).send( {message: 'Inventory updated.', data: productUpdated});
-                });
-            });
-        })
-        .catch(error => {
-            res.status(500).send({ message: 'Inventory could not be deleted.'});
-        });
-    
+        const inventoryRemoved = await Inventory.findByIdAndRemove( {_id : id});
+
+        const productFound = await Product.findById( {_id: inventoryRemoved.product});
+
+        let newStock = productFound.stock - inventoryRemoved.quantity;
+
+        const productUpdated = await Product.findByIdAndUpdate({ _id : inventoryRemoved.product}, { stock: newStock});
+
+        res.status(200).send( {message: 'Inventory updated.', data: productUpdated});
+        
+    } catch (error) {
+        res.status(500).send({ message: 'Inventory could not be deleted.'});
+    }
+            
 }
 
-const modifyInventory = (req, res) => {
-        if (!req || req.user.role !== 'admin') return  res.status(403).send({ message: 'No Access Granted.'});
 
-        let data = req.body;
+const modifyInventory = async (req, res) => {
+    if (!req || req.user.role !== 'admin') return  res.status(403).send({ message: 'No Access Granted.'});
 
-        Inventory.create(data)
-        .then( inventoryCreated => {
-            Product.findById( {_id: inventoryCreated.product})
+    try {
+        let data = req.body; 
 
-            .then(productFound => {
-                let newStock = productFound.stock + inventoryCreated.quantity;
-                Product.findByIdAndUpdate({ _id : inventoryCreated.product}, { stock: newStock})
-                 .then(productUpdated => {
-                     res.status(200).send( { message: 'New stock added.', data })
-                 })
-            })
-        .catch( error => {
-            res.status(500).send( {
-                message: error.message
-            });
-        });
-    });
+        const inventoryCreated = await Inventory.create(data);
 
+        const productFound = await Product.findById( {_id: inventoryCreated.product});
+
+        let newStock = productFound.stock + inventoryCreated.quantity;
+
+        const productUpdated = await Product.findByIdAndUpdate({ _id : inventoryCreated.product}, { stock: newStock});
+        
+        res.status(200).send( { message: 'New stock added.', data });
+
+    } catch (error) {
+        res.status(500).send( { message: error.message });
+    }
 }
 
 module.exports = {
