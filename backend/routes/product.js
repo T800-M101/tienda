@@ -17,6 +17,8 @@ api.put('/updateProduct/:id', [auth.auth, img_path], productController.updatePro
 api.delete('/deleteProduct/:id', auth.auth, productController.deleteProduct);
 api.get('/getInventoryById/:id', auth.auth, productController.getInventoryById);
 api.delete('/deleteInventoryById/:id', auth.auth, productController.deleteInventoryById);
+api.post('/modifyInventory', auth.auth, productController.modifyInventory);
+
 
 
 

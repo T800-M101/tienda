@@ -170,10 +170,11 @@ const getInventoryById = (req, res) => {
 
     const id = req.params['id'];
     try {
-        Inventory.find({product: id}).populate('admin').then(inventory => {
+        Inventory.find({product: id}).populate('admin').sort({ createdAt: -1 })
+        .then(inventory => {
             res.status(200).send({
                 message: 'Inventory data',
-                data: inventory[0]
+                data: inventory
             });
         })
         .catch(error => {
@@ -191,14 +192,13 @@ const deleteInventoryById = (req, res) => {
 
     if (!req || req.user.role !== 'admin') return  res.status(403).send({ message: 'No Access Granted.'});
 
-    try {
         const id = req.params['id'];
         Inventory.findByIdAndRemove( {_id : id})
         .then(inventoryRemoved => {
-            Product.find( {_id: inventoryRemoved.product})
+            Product.findById( {_id: inventoryRemoved.product})
 
             .then( productFound => {
-                let newStock = productFound[0].stock - inventoryRemoved.quantity;
+                let newStock = productFound.stock - inventoryRemoved.quantity;
                 Product.findByIdAndUpdate({ _id : inventoryRemoved.product}, { stock: newStock})
                 
                 .then( productUpdated => {
@@ -209,14 +209,31 @@ const deleteInventoryById = (req, res) => {
         .catch(error => {
             res.status(500).send({ message: 'Inventory could not be deleted.'});
         });
-        
-    } catch (error) {
-        res.status(500).send({ message: error});
-    }
-        
-        
-        
-  
+    
+}
+
+const modifyInventory = (req, res) => {
+        if (!req || req.user.role !== 'admin') return  res.status(403).send({ message: 'No Access Granted.'});
+
+        let data = req.body;
+
+        Inventory.create(data)
+        .then( inventoryCreated => {
+            Product.findById( {_id: inventoryCreated.product})
+
+            .then(productFound => {
+                let newStock = productFound.stock + inventoryCreated.quantity;
+                Product.findByIdAndUpdate({ _id : inventoryCreated.product}, { stock: newStock})
+                 .then(productUpdated => {
+                     res.status(200).send( { message: 'New stock added.', data })
+                 })
+            })
+        .catch( error => {
+            res.status(500).send( {
+                message: error.message
+            });
+        });
+    });
 
 }
 
@@ -228,5 +245,6 @@ module.exports = {
     getPortada,
     deleteProduct,
     getInventoryById,
-    deleteInventoryById
+    deleteInventoryById,
+    modifyInventory
 }

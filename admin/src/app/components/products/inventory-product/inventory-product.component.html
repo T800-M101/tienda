@@ -13,6 +13,29 @@
         <div class="card-header">
             <h5 style="margin-bottom: 0px;">Inventory of {{product.name}}</h5>
         </div>
+        <div class="card-header">
+            <div class="row">
+                <div class="col-12">
+                    <form class="form-inline" #inventoryForm="ngForm" (ngSubmit)="addInventory(inventoryForm)">
+                        <label class="sr-only">Quantity</label>
+                        <input 
+                            class="form-control mb-3 mr-4" 
+                            type="text" name="quantity"
+                            [(ngModel)]="inventory.quantity" 
+                            placeholder="Quantity" 
+                            required>
+                        <label class="sr-only">Supplier</label>
+                        <input 
+                            class="form-control mb-3 mr-3" 
+                            type="text" name="supplier"
+                            [(ngModel)]="inventory.supplier" 
+                            placeholder="Supplier" 
+                            required>
+                        <button class="btn btn-primary mb-3" type="submit">Add Inventory</button>
+                    </form>
+                </div>
+            </div>
+        </div>
       
       <div class="card-body">
         <section class="table__body">
@@ -25,15 +48,15 @@
                         <td>Options</td>
                     </tr>
                 </thead>
-                <ng-container *ngIf="inventory.length > 0">
+                <ng-container *ngIf="inventories.length > 0">
                     <tbody>
-                        <tr *ngFor="let item of inventory">
+                        <tr *ngFor="let item of inventories">
                             <td>{{item.admin.name}}</td>
                             <td>{{item.quantity}}</td>
                             <td>{{item.supplier}}</td>
                             <td>
                                 <div class="table__buttons">
-                                    <button type="button" class="btn btn-delete"  (click)="openModal(item, 'inventory')"><i class="fa-solid fa-trash"></i></button>
+                                    <button type="button" class="button btn-delete"  (click)="openModal(item, 'inventory')"><i class="fa-solid fa-trash"></i></button>
                                 </div>
                             </td>
                         </tr>

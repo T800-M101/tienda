@@ -1,6 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { ERROR, SUCCESS } from 'src/app/colors/popup-colors';
+import { showAlert } from 'src/app/helpers/alerts';
 import { Inventory } from 'src/app/models/inventory';
 import { Product } from 'src/app/models/product';
 import { AdminService } from 'src/app/services/admin.service';
@@ -14,12 +17,15 @@ import { ProductService } from 'src/app/services/product.service';
 })
 export class InventoryProductComponent implements OnInit, OnDestroy {
   product = new Product();
+  inventoryProduct!: string;
   id!: string;
   token!: string;
+  idUser!: string | null;
   productSubscription$!: Subscription;
   inventorySubscription$!: Subscription;
   modalSubscription$!: Subscription;
-  inventory:any =  [];
+  inventories:any =  [];
+  inventory:any =  {};
   modalSwitch!: boolean;
 
   constructor(
@@ -40,26 +46,35 @@ export class InventoryProductComponent implements OnInit, OnDestroy {
       next: (params) => {
         this.id = params['id'];
         this.token = this.adminService.getToken();
+
+        if (localStorage.getItem('_id')) {
+          this.idUser = localStorage.getItem('_id');
+        }
         this.productSubscription$ = this.productService.getProductById(this.id, this.token).subscribe({
           next: (data) => {
+            this.inventoryProduct = data.data._id;
             this.mapProduct(data.data);  
           },
           error: (error) => {console.log(error)}
         });
-        
-        this.inventorySubscription$ = this.productService.getInventoryById(this.id, this.token).subscribe({
-          next: (inventory) => {
-            if (inventory.data) {
-              this.inventory.push(inventory.data);
-            }
-          },
-          error: (error) => {console.log(error)}
-        });
+
+        this.getInventory();
       },
       error: (error) => {console.log(error)}
     });
   }
   
+  
+  getInventory(): void {
+    this.inventorySubscription$ = this.productService.getInventoryById(this.id, this.token).subscribe({
+      next: (inventory) => {
+        if (inventory.data) {
+          this.inventories = inventory.data;
+        }
+      },
+      error: (error) => {console.log(error)}
+    });
+  }
 
   mapProduct(data: any) {
     this.product.name = data.name;
@@ -82,5 +97,29 @@ export class InventoryProductComponent implements OnInit, OnDestroy {
 
   onCloseModal(event: void): void {
     this.router.navigate(['panel/products']);
+  }
+
+  addInventory(form: NgForm): void {
+    if (!form.valid) {
+      showAlert('ERROR:', 'Inventory Invalid', ERROR);
+    } else {
+      const data = {
+        admin: this.idUser,
+        product: this.inventoryProduct,
+        quantity: form.value.quantity,
+        supplier: form.value.supplier
+      };
+      this.productService.modifyInventory(data, this.token).subscribe({
+        next: (response) => {
+          console.log(response)
+          showAlert('SUCCESS:', response.message, SUCCESS);
+          this.getInventory();
+        },
+        error:(error) => {
+          showAlert('ERROR:', 'Inventory not modified', ERROR);
+        }
+      });
+    }
+
   }
 }

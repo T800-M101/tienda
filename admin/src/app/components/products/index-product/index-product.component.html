@@ -45,9 +45,9 @@
                             <td>{{product.nsales}}</td>
                             <td>
                                 <div class="table__buttons">
-                                    <button type="button" class="btn btn-edit" [routerLink]="['/panel/products/edit/', product._id]"><i class="fa-solid fa-pen-to-square"></i></button>
-                                    <button type="button" class="btn btn-delete" (click)="openModal(product, 'product')"><i class="fa-solid fa-trash"></i></button>
-                                    <button type="button" class="btn btn-inventory" [routerLink]="['/panel/products/inventory/', product._id]"><i class="fa-solid fa-info"></i></button>
+                                    <button type="button" class="button btn-edit" [routerLink]="['/panel/products/edit/', product._id]"><i class="fa-solid fa-pen-to-square"></i></button>
+                                    <button type="button" class="button btn-delete" (click)="openModal(product, 'product')"><i class="fa-solid fa-trash"></i></button>
+                                    <button type="button" class="button btn-inventory" [routerLink]="['/panel/products/inventory/', product._id]"><i class="fa-solid fa-info"></i></button>
                                 </div>
                             </td>
                         </tr>
