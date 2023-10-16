@@ -3,6 +3,7 @@
     <div class="custom-modal-header">
         <h5 *ngIf="adminToDelete">WARNING: <span class="delete">{{adminToDelete.name}} {{adminToDelete.lastname}} will be lost.</span></h5>
         <h5 *ngIf="productToDelete">WARNING: <span class="delete">{{productToDelete.name}} will be lost.</span></h5>
+        <h5 *ngIf="couponToDelete">WARNING: <span class="delete">{{couponToDelete.code}} will be lost.</span></h5>
         <h5 *ngIf="inventoryToDelete">WARNING: <span class="delete">This inventory will be lost.</span></h5>
         <button class="btn-close" type="button" (click)="closeModal()">''</button>
     </div>

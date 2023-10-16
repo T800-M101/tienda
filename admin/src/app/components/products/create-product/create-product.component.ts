@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Product } from 'src/app/models/product';
@@ -7,6 +7,7 @@ import { ProductService } from 'src/app/services/product.service';
 import { ERROR, SUCCESS } from '../../../colors/popup-colors';
 import { showAlert } from 'src/app/helpers/alerts';
 import { FormValidator } from 'src/app/services/form-validator.service';
+import { Subscription } from 'rxjs';
 
 
 
@@ -15,7 +16,7 @@ import { FormValidator } from 'src/app/services/form-validator.service';
   templateUrl: './create-product.component.html',
   styleUrls: ['./create-product.component.css'],
 })
-export class CreateProductComponent implements OnInit {
+export class CreateProductComponent implements OnInit, OnDestroy {
   @ViewChild('btnCreate') btnCreate: any;
 
   product = new Product();
@@ -26,13 +27,18 @@ export class CreateProductComponent implements OnInit {
   imageInvalid = false;
   formInvalid!: boolean;
   token: any;
+  productSubscription$:any = Subscription;
 
   constructor( 
       private productService: ProductService, 
       private adminService: AdminService, 
       private router: Router,
-      private formValidator: FormValidator) {
-   
+      private formValidator: FormValidator) {}
+
+  ngOnDestroy(): void {
+    if(this.productSubscription$) {
+      this.productSubscription$.unsubscribe();
+    }
   }
 
   ngOnInit(): void {
@@ -54,7 +60,7 @@ export class CreateProductComponent implements OnInit {
   
     this.productMapper(form);
     
-    this.productService.createProduct(this.product, this.file, this.token).subscribe({
+    this.productSubscription$ = this.productService.createProduct(this.product, this.file, this.token).subscribe({
        next: (resp) => {
         showAlert('SUCCESS:', 'Product created.', SUCCESS);
         this.router.navigate(['panel/products']);

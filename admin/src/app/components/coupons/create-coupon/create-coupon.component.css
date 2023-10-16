@@ -17,6 +17,18 @@ p {
     overflow: hidden;
 }
 
+/* .form-invalid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1125px;
+    height: 50px;
+    border-radius: 6px;
+    background-color: #ffd5dc;
+    color: red;
+    margin-bottom: 3px;
+} */
+
 .form-invalid {
     color: red;
     margin-bottom: 3px;

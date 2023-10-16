@@ -1,0 +1,79 @@
+<app-sidebar></app-sidebar>
+  <!-- Page title-->
+  <div class="border-bottom pt-5 mt-2 mb-5">
+    <h1 class="mt-2 mt-md-4 mb-3 pt-5">Coupons</h1>
+    <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
+      <p class="text-muted">This module creates a new coupon.</p>
+      
+    </div>
+  </div>
+  <div *ngIf="formInvalid" class="form-invalid">Please complete the fields marked in red.</div>
+  <div class="card box-shadow-sm">
+        <div class="card-header">
+            <h5 style="margin-bottom: 0px;">Coupon record</h5> 
+        </div>
+        <div class="card-body">
+            <form #couponForm="ngForm" id="couponForm" (ngSubmit)="editCoupon(couponForm)">
+              <div class="row">
+
+                <div class="col-lg-3 col-md-6 form-group">
+                  <label for="validationCustom01" class="form-label">Code</label>
+                  <input 
+                    type="text"
+                    class="form-control" 
+                    name="code"
+                    id="code"
+                    placeholder="coupon code"
+                    [ngModel]="coupon.code" 
+                    required>
+                </div>
+
+
+                <div class="col-lg-3 col-md-6">
+                    <label for="validationCustom01" class="form-label">Type</label>
+                    <select 
+                      class="form-control custom-select" 
+                      name="type"
+                      id="type" 
+                      [ngModel]="coupon.type" 
+                      required>
+                      <option value="" disabled selected hidden>Select</option>
+                      <option value="Porcentage">Porcentage</option>
+                      <option value="Fixed value">Fixed value</option>
+                    </select>
+                </div>
+
+                <div class="col-lg-3 col-md-6 form-group">
+                    <label>Value</label>
+                    <input 
+                      type="number"
+                      class="form-control" 
+                      name="value"
+                      id="value"
+                      placeholder="discount"
+                      [ngModel]="coupon.value" 
+                      required>
+                </div>
+
+                <div class="col-lg-3 col-md-6 form-group">
+                    <label>Limit</label>
+                    <input 
+                      type="number"
+                      class="form-control" 
+                      name="limit"
+                      id="limit"
+                      [ngModel]="coupon.limit" 
+                      placeholder="Max limit"
+                      required>
+                </div>
+
+               
+              </div>
+            </form>
+    </div>
+    <div class="card-footer">
+        <button type="submit" form="couponForm" class="btn btn-primary mr-3" #btnUpdate>Update coupon</button>
+        <a class="btn btn-warning" routerLink="/panel/coupons">Cancel</a>
+    </div>
+  </div>
+

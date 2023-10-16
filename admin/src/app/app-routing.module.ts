@@ -12,6 +12,9 @@ import { CreateProductComponent } from './components/products/create-product/cre
 import { IndexProductComponent } from './components/products/index-product/index-product.component';
 import { EditProductComponent } from './components/products/edit-product/edit-product.component';
 import { InventoryProductComponent } from './components/products/inventory-product/inventory-product.component';
+import { CreateCouponComponent } from './components/coupons/create-coupon/create-coupon.component';
+import { IndexCouponComponent } from './components/coupons/index-coupon/index-coupon.component';
+import { EditCouponComponent } from './components/coupons/edit-coupon/edit-coupon.component';
 
 const routes: Routes = [
   {path:'', redirectTo:'home', pathMatch: 'full'},
@@ -28,6 +31,11 @@ const routes: Routes = [
     {path:'products/create', component: CreateProductComponent, canActivate: [isAuthenticated]},
     {path:'products/edit/:id', component: EditProductComponent, canActivate: [isAuthenticated]},
     {path:'products/inventory/:id', component: InventoryProductComponent, canActivate: [isAuthenticated]},
+
+    {path:'coupons', component: IndexCouponComponent, canActivate: [isAuthenticated]},
+    {path:'coupons/create', component: CreateCouponComponent, canActivate: [isAuthenticated]},
+    {path:'coupons/edit/:id', component: EditCouponComponent, canActivate: [isAuthenticated]},
+
     
   ]},
   {path:"login", component: LoginComponent}

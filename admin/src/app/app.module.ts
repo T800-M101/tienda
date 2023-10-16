@@ -21,7 +21,10 @@ import { EditorModule } from '@tinymce/tinymce-angular';
 import { IndexProductComponent } from './components/products/index-product/index-product.component';
 import { NgOptimizedImage } from '@angular/common';
 import { EditProductComponent } from './components/products/edit-product/edit-product.component';
-import { InventoryProductComponent } from './components/products/inventory-product/inventory-product.component'
+import { InventoryProductComponent } from './components/products/inventory-product/inventory-product.component';
+import { CreateCouponComponent } from './components/coupons/create-coupon/create-coupon.component';
+import { IndexCouponComponent } from './components/coupons/index-coupon/index-coupon.component';
+import { EditCouponComponent } from './components/coupons/edit-coupon/edit-coupon.component'
 
 @NgModule({
   declarations: [
@@ -39,7 +42,10 @@ import { InventoryProductComponent } from './components/products/inventory-produ
     CreateProductComponent,
     IndexProductComponent,
     EditProductComponent,
-    InventoryProductComponent 
+    InventoryProductComponent,
+    CreateCouponComponent,
+    IndexCouponComponent,
+    EditCouponComponent 
   ],
   imports: [
     BrowserModule,

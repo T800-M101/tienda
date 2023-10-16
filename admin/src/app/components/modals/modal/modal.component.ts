@@ -5,6 +5,7 @@ import { AdminService } from 'src/app/services/admin.service';
 import { ModalService } from 'src/app/services/modal.service';
 import { ERROR, SUCCESS } from '../../../colors/popup-colors';
 import { ProductService } from 'src/app/services/product.service';
+import { CouponService } from 'src/app/services/coupon.service';
 
 @Component({
   selector: 'app-modal',
@@ -19,17 +20,20 @@ export class ModalComponent implements OnInit, OnDestroy {
   token!: string;
   adminToDelete!: any;
   productToDelete:any;
+  couponToDelete:any;
   inventoryToDelete:any;
   itemToDelete!: string;
   private adminSubscription$!:Subscription;
   private productSubscription$!: Subscription;
+  private couponSubscription$!: Subscription;
   private inventorySubscription$!: Subscription;
   private id!: string;
 
   constructor(
       private modalService: ModalService, 
       private adminService: AdminService,
-      private productService: ProductService){}
+      private productService: ProductService,
+      private couponService: CouponService){}
   
   ngOnInit(): void {
     this.token = this.adminService.getToken();
@@ -50,6 +54,11 @@ export class ModalComponent implements OnInit, OnDestroy {
       this.id = this.inventoryToDelete._id;
     }
 
+    if (this.itemToDelete === "coupon") {
+      this.couponToDelete = this.couponService.getCouponToDelete();
+      this.id = this.couponToDelete._id;
+    }
+
   }
   
   ngOnDestroy(): void {
@@ -62,6 +71,10 @@ export class ModalComponent implements OnInit, OnDestroy {
 
     if(this.inventorySubscription$) {
       this.inventorySubscription$.unsubscribe();
+    }
+
+    if(this.couponSubscription$) {
+      this.couponSubscription$.unsubscribe();
     }
   }
 
@@ -81,6 +94,10 @@ export class ModalComponent implements OnInit, OnDestroy {
     if (this.itemToDelete === 'inventory') {
       this.deleteInventory();
     }
+
+    if (this.itemToDelete === 'coupon') {
+      this.deleteCoupon();
+    }
   }
 
   deleteAdmin(): void {
@@ -99,6 +116,20 @@ export class ModalComponent implements OnInit, OnDestroy {
 
   deleteProduct(): void {
     this.productSubscription$ = this.productService.deleteProduct(this.id, this.token).subscribe({
+      next: (response) => {
+       showAlert('SUCCESS:', response.message, SUCCESS);
+       this.onCloseModal.emit();
+       this.modalService.closeModal();
+      },
+      error: (error) => {
+        showAlert('ERROR:', error.error.message, ERROR);
+      }
+    });
+         
+  }
+
+  deleteCoupon(): void {
+    this.couponSubscription$ = this.couponService.deleteCoupon(this.id, this.token).subscribe({
       next: (response) => {
        showAlert('SUCCESS:', response.message, SUCCESS);
        this.onCloseModal.emit();

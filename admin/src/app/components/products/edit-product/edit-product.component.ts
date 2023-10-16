@@ -39,6 +39,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
       private productService: ProductService,
       private formValidator:FormValidator
       ){}
+      
   ngOnDestroy(): void {
     this.routeSubscription$.unsubscribe();
   }
@@ -91,7 +92,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
 
     this.productService.updateProduct(this.id, data, this.token).subscribe({
        next: (resp) => {
-        showAlert('SUCCESS:', 'Product created.', SUCCESS);
+        showAlert('SUCCESS:', 'Product edited.', SUCCESS);
         this.router.navigate(['panel/products']);
         form.resetForm();
        },

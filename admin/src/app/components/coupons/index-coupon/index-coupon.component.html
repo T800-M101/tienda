@@ -1,0 +1,60 @@
+<app-sidebar></app-sidebar>
+
+   <!-- Page title-->
+   <div class="border-bottom pt-5 mt-2 mb-5">
+    <h1 class="mt-2 mt-md-4 mb-3 pt-5">Coupons</h1>
+    <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
+      <p class="text-muted">This module shows a list of all the coupons.</p>
+      <p class="font-size-sm font-weight-medium pl-md-4"><a class="text-nowrap" routerLink="/panel/customers/create">Create new <span></span> <i class="fa-solid fa-chevron-right"></i></a></p>
+    </div>
+  </div>
+
+  <div class="card box-shadow-sm">
+        <div class="card-header">
+            <h5 style="margin-bottom: 0px;">Filter coupons</h5>
+        </div>
+        <div class="card-header">
+            <form class="form-inline pt-2">
+                <input class="form-control mb-3 mr-sm-4" type="text" [(ngModel)]="filteredCoupons" name="filteredCustomer" placeholder="Code / Type ">
+            </form>
+        </div>
+        <div class="card-body">
+        <section class="table__body">
+          <table>
+              <thead>
+                  <tr class="table__header">
+                      <td>#</td>
+                      <td>Code</td>
+                      <td>Type</td>
+                      <td>value</td>
+                      <td>Limit</td>
+                      <td>Options</td>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let coupon of coupons | slice: (page-1) * pageSize : (page -1) * pageSize + pageSize  | filter:filteredCoupons; let i = index">
+                      <td><strong>{{i+1}}</strong></td>
+                      <td>{{coupon.code}}</td>
+                      <td>{{coupon.type}}</td>
+                      <td>{{coupon.value}}</td>
+                      <td>{{coupon.limit}}</td>
+                      <td>
+                          <div class="table__buttons">
+                              <button type="button" class="button btn-edit" [routerLink]="['/panel/coupons/edit/', coupon._id]"><i class="fa-solid fa-pen-to-square"></i></button>
+                              <button type="button" class="button btn-delete" (click)="openModal(coupon, 'coupon')"><i class="fa-solid fa-trash"></i></button>
+                          </div>
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+      </section>
+    </div>
+        <div class="card-footer">
+              <ngb-pagination 
+                [(page)]="page"
+                [pageSize]="pageSize"
+                [collectionSize]="coupons.length">
+              </ngb-pagination>
+        </div>
+  </div>   
+  <app-modal *ngIf="modalSwitch" (onCloseModal)="onCloseModal($event)"></app-modal>

@@ -25,6 +25,8 @@ export class IndexCustomerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-   this.adminSubscription$.unsubscribe();
+    if (this.adminSubscription$) {
+      this.adminSubscription$.unsubscribe();
+    }
   }
 }
