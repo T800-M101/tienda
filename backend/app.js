@@ -11,6 +11,7 @@ const customer_route = require("./routes/customer");
 const admin_route = require("./routes/admin");
 const product_route = require("./routes/product");
 const coupon_route = require("./routes/coupon");
+const config_route = require("./routes/config");
 
 
 // Initialize express
@@ -44,7 +45,8 @@ app.use((req,res,next)=>{
 app.use('/api', customer_route);
 app.use('/api', admin_route);
 app.use('/api', product_route);
-app.use('/api', coupon_route)
+app.use('/api', coupon_route);
+app.use('/api', config_route);
 
 
 

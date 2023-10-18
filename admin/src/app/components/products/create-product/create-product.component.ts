@@ -8,6 +8,9 @@ import { ERROR, SUCCESS } from '../../../colors/popup-colors';
 import { showAlert } from 'src/app/helpers/alerts';
 import { FormValidator } from 'src/app/services/form-validator.service';
 import { Subscription } from 'rxjs';
+import { Config } from 'src/app/models/config';
+import { ConfigService } from 'src/app/services/config.service';
+
 
 
 
@@ -27,22 +30,30 @@ export class CreateProductComponent implements OnInit, OnDestroy {
   imageInvalid = false;
   formInvalid!: boolean;
   token: any;
-  productSubscription$:any = Subscription;
+  config = new Config();
+  productSubscription$!:Subscription;
+  configSubscription$!: Subscription;
 
   constructor( 
       private productService: ProductService, 
       private adminService: AdminService, 
       private router: Router,
-      private formValidator: FormValidator) {}
+      private formValidator: FormValidator,
+      private configService: ConfigService) {}
 
   ngOnDestroy(): void {
     if(this.productSubscription$) {
       this.productSubscription$.unsubscribe();
     }
+
+    if(this.configSubscription$) {
+      this.configSubscription$.unsubscribe();
+    }
   }
 
   ngOnInit(): void {
-  this.token = this.adminService.getToken();
+    this.configSubscription$ = this.configService.getConfigPublic().subscribe( config => {this.config = config.config});
+    this.token = this.adminService.getToken();
   }
 
   createProduct(form: NgForm): void {

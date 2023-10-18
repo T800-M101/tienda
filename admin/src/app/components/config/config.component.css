@@ -1,0 +1,41 @@
+.error {
+    border-style: solid;
+    border-color: red;
+}
+
+.drag-drop-error {
+    color: red;
+    font-size: small;
+}
+
+p {
+    color: red;
+    font-size: small;
+}
+
+.btn {
+    cursor: pointer;
+}
+
+.no-overflow {
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.form-invalid {
+    color: red;
+    margin-bottom: 3px;
+}
+
+.text-editor-error {
+    border: solid .5px red;
+    border-radius: 2%;
+}
+
+
+.active {
+    /* Scaling button to 0.98 to its original size */
+    transform: scale(0.98);
+    /* Lowering the shadow */
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+}

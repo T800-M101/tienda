@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { InicioComponent } from './components/inicio/inicio.component';
+import { StartComponent } from './components/start/start.component';
 import { LoginComponent } from './components/login/login.component';
 import { isAuthenticated } from './guards/admim.guard';
 import { IndexCustomerComponent } from './components/customers/index-customer/index-customer.component';
@@ -15,10 +15,11 @@ import { InventoryProductComponent } from './components/products/inventory-produ
 import { CreateCouponComponent } from './components/coupons/create-coupon/create-coupon.component';
 import { IndexCouponComponent } from './components/coupons/index-coupon/index-coupon.component';
 import { EditCouponComponent } from './components/coupons/edit-coupon/edit-coupon.component';
+import { ConfigComponent } from './components/config/config.component';
 
 const routes: Routes = [
   {path:'', redirectTo:'home', pathMatch: 'full'},
-  {path:"home", component: InicioComponent, canActivate: [isAuthenticated]},
+  {path:"home", component: StartComponent, canActivate: [isAuthenticated]},
   {path:"panel", children:[
     {path:'customers', component: IndexCustomerComponent, canActivate: [isAuthenticated]},
     {path:'customers/create', component: CreateCustomerComponent, canActivate: [isAuthenticated]},
@@ -35,6 +36,9 @@ const routes: Routes = [
     {path:'coupons', component: IndexCouponComponent, canActivate: [isAuthenticated]},
     {path:'coupons/create', component: CreateCouponComponent, canActivate: [isAuthenticated]},
     {path:'coupons/edit/:id', component: EditCouponComponent, canActivate: [isAuthenticated]},
+
+    {path:'configurations', component: ConfigComponent, canActivate: [isAuthenticated]},
+
 
     
   ]},

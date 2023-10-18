@@ -9,6 +9,10 @@ import { ProductService } from 'src/app/services/product.service';
 import { ERROR, SUCCESS } from '../../../colors/popup-colors';
 import { GLOBAL } from 'src/app/services/GLOBAL';
 import { FormValidator } from 'src/app/services/form-validator.service';
+import { ConfigService } from 'src/app/services/config.service';
+import { Config } from 'src/app/models/config';
+
+
 
 @Component({
   selector: 'app-edit-product',
@@ -29,7 +33,8 @@ export class EditProductComponent implements OnInit, OnDestroy {
   image = '';
   url = '';
   deleteImg = '';
-
+  configSubscription$!: Subscription;
+  config = new Config();
   routeSubscription$!:Subscription;
 
   constructor(
@@ -37,15 +42,23 @@ export class EditProductComponent implements OnInit, OnDestroy {
       private router: Router, 
       private adminService:AdminService, 
       private productService: ProductService,
-      private formValidator:FormValidator
+      private formValidator:FormValidator,
+      private configService: ConfigService
       ){}
       
   ngOnDestroy(): void {
-    this.routeSubscription$.unsubscribe();
+    if(this.routeSubscription$) {
+      this.routeSubscription$.unsubscribe();
+    }
+
+    if(this.configSubscription$) {
+      this.configSubscription$.unsubscribe();
+    }
   }
 
 
   ngOnInit(): void {
+    this.configSubscription$ = this.configService.getConfigPublic().subscribe( config => {this.config = config.config});
     this.url = GLOBAL.url;
     this.token = this.adminService.getToken();
     this.routeSubscription$ = this.route.params.subscribe(params => {

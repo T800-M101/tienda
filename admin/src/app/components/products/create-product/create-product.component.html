@@ -53,7 +53,7 @@
                                     [(ngModel)]="product.category"
                                     required>
                                     <option value="" disabled selected hidden>Select</option>
-                                    <option value="Categoria 1">Category 1</option>
+                                    <option value={{category.title}} *ngFor="let category of config.categories">{{category.title}}</option>
                                 </select>
                             </div>
 

@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from  '@angular/common/http';
-import { InicioComponent } from './components/inicio/inicio.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { LoginComponent } from './components/login/login.component';
 import { IndexCustomerComponent } from './components/customers/index-customer/index-customer.component';
@@ -24,12 +23,14 @@ import { EditProductComponent } from './components/products/edit-product/edit-pr
 import { InventoryProductComponent } from './components/products/inventory-product/inventory-product.component';
 import { CreateCouponComponent } from './components/coupons/create-coupon/create-coupon.component';
 import { IndexCouponComponent } from './components/coupons/index-coupon/index-coupon.component';
-import { EditCouponComponent } from './components/coupons/edit-coupon/edit-coupon.component'
+import { EditCouponComponent } from './components/coupons/edit-coupon/edit-coupon.component';
+import { ConfigComponent } from './components/config/config.component'
+import { StartComponent } from './components/start/start.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    InicioComponent,
+    StartComponent,
     SidebarComponent,
     LoginComponent,
     IndexCustomerComponent,
@@ -45,7 +46,8 @@ import { EditCouponComponent } from './components/coupons/edit-coupon/edit-coupo
     InventoryProductComponent,
     CreateCouponComponent,
     IndexCouponComponent,
-    EditCouponComponent 
+    EditCouponComponent,
+    ConfigComponent 
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,146 @@
+<app-sidebar></app-sidebar>
+   <!-- Page title-->
+   <div class="border-bottom pt-5 mt-2 mb-5">
+    <h1 class="mt-2 mt-md-4 mb-3 pt-5">Configurations</h1>
+    <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
+      <p class="text-muted">This module sets the configurations of the store.</p>
+
+    </div>
+  </div>
+
+ <form #configForm="ngForm" (ngSubmit)="update(configForm)">
+    <div *ngIf="formInvalid" class="form-invalid">Please complete the fields marked in red.</div>
+    <div class="card box-shadow-sm">
+        <div class="card-header">
+            <h5 style="margin-bottom: 0px;">Configurations</h5>
+        </div>
+
+        <div class="card-body">
+          <div style="max-width: 48rem;">
+            <div class="form-group row align-items-center">
+              <label class="col-md-3 col-form-label font-weight-medium" for="text-input">Name of the Store</label>
+              <div class="col-md-9">
+                <input 
+                    class="form-control" 
+                    type="text" 
+                    name="title"
+                    id="title"
+                    [ngModel]="config.title" 
+                    placeholder="Createx"
+                    required>
+              </div>
+            </div>
+            <div class="form-group row align-items-center">
+              <label class="col-md-3 col-form-label font-weight-medium" for="text-input">Billing</label>
+              <div class="col-md-4">
+                <input 
+                    class="form-control" 
+                    type="string" 
+                    id="serie" 
+                    name="serie"
+                    [ngModel]="config.serie"
+                    required>
+              </div>
+              <div class="col-md-5">
+                <input 
+                    class="form-control" 
+                    type="text" 
+                    id="correlative" 
+                    name="correlative"
+                    [ngModel]="config.correlative"
+                    required>
+              </div>
+            </div>
+            <div class="form-group row align-items-center">
+              <label class="col-md-3 col-form-label font-weight-medium" for="text-input">Categories</label>
+              <div class="col-md-4">
+                <input 
+                    class="form-control" 
+                    type="text" 
+                    id="title_cat"
+                    name="title_cat"
+                    [(ngModel)]="title" 
+                    placeholder="Title">
+       
+              </div>
+              <div class="col-md-5">
+                <input 
+                    class="form-control" 
+                    type="text" 
+                    id="icon"
+                    name="icon"
+                    [(ngModel)]="icon"
+                    placeholder="Icon">
+              </div>
+              <div class="col-md-3">
+
+              </div>
+              <div class="col-md-9">
+                <a style="cursor: pointer;" class="mb-5" (click)="addCategory()">Add</a>
+                <div class="table-responsive mt-3">
+                  <table class="table table-sm">
+                    <thead class="thead-dark">
+                      <tr>
+                 
+                        <th>Category</th>
+                        <th>Icon</th>
+                        <th>Delete</th>
+                       
+                      </tr>
+                    </thead>
+                    <ng-container *ngIf="config.categories.length === 0">
+                        <tbody>
+                            <tr>
+                              <td colspan="2" class="text-center">
+                                <span class="text-muted">No categories available</span>
+                              </td>
+                            </tr>
+                          </tbody>
+                    </ng-container>
+
+                    <ng-container *ngIf="config.categories.length > 0">
+                        <tbody *ngFor="let item of config.categories; let i = index">
+                            <tr>
+                              <td>{{item.title}}</td>
+                              <td><i class={{item.icon}}></i> {{item.icon}}</td>
+                              <td><a style="cursor: pointer;" class="text-danger" (click)="deleteCategory(i)">[Delete]</a></td>
+                            </tr>
+                          </tbody>
+                    </ng-container>
+                  </table>
+                </div>
+              </div>
+             
+            </div>
+            <div class="form-group row align-items-center">
+              <label class="col-md-3 col-form-label font-weight-medium" for="file-input">Logo</label>
+              <div class="col-md-9">
+                  <div class="cs-file-drop-area">
+                    <!-- <span class="text-editor-error" *ngIf="!imageTypeAllowed || !imageTypeAllowed">Wrong size or image type</span> -->
+                    <!-- <div class="cs-file-drop-icon cxi-upload"></div> -->
+                    <div class="cs-file-drop-preview img-thumbnail-rounded" style="width: 80px; height: 80px;">
+                        <img [src]="imgSelected" alt="logo" id="imgDropPreview">
+                    </div>
+                    <span class="cs-file-drop-message" *ngIf="imageTypeAllowed && imageTypeAllowed">Drag and drop here to upload</span>
+                    <span class=" cs-file-drop-message drag-drop-error" *ngIf="!imageTypeAllowed || !imageTypeAllowed">{{message}}</span>
+                    <input 
+                        type="file" 
+                        class="cs-file-drop-input" 
+                        (change)="fileChangeEvent($event)"
+                        name="image"
+                        (change)="setLogo()">
+                    <button type="button" class="cs-file-drop-btn  btn-outline-primary btn-sm">Or select file</button>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+         
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-primary mr-3" type="submit" #btnUpdate>Save Changes</button>
+        </div>
+  </div> 
+ </form> 
+
+
